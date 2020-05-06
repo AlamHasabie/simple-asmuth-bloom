@@ -1,6 +1,7 @@
 from sieve import Sieve
 from crt import chinese_remainder
 import random
+import time
 
 
 class Holder : 
@@ -143,7 +144,6 @@ def main():
 
 	sieve = Sieve()
 	
-
 	number_of_holders = int(input("Input number of holders : "))
 	while number_of_holders<1 :
 		number_of_holders = int(input("Number must be larger than one. Try again : "))
@@ -155,8 +155,9 @@ def main():
 		secret = int(input("Secret must not be less than zero. Try again :"))
 	
 	# SSS Object
+	generation_start = time.time()
 	SSS = AsmuthBloom(number_of_holders,min_number_to_solve,secret,verbose=True)
-	
+	generation_end = time.time()
 	# Sequence
 	print("Sequence")
 	for sequence in SSS.getSequence():
@@ -169,7 +170,11 @@ def main():
 		
 	# Solve secret
 	# For now choice is totally random
+	solve_start = time.time()
 	secret = SSS.solve()
+	solve_end = time.time()
+	print("Generation time (s): " + str(generation_end - generation_start))
+	print("Solving time (s): " + str(solve_end - solve_start))
 	
 	print(secret)
 
